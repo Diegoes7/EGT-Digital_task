@@ -14,6 +14,7 @@ type PostListProps = {
 	onRevertPost: (id: number) => void
 }
 
+// Posts component, show lists of all post to a specific user 
 export function PostsList({
 	loading,
 	posts,
@@ -105,6 +106,7 @@ export function PostsList({
 											type='primary'
 											onClick={createPostSubmitHandler(post.id)}
 											loading={loading}
+											disabled={Object.keys(changes).length === 0}
 										>
 											Save
 										</Button>

@@ -10,6 +10,7 @@ import { Button, Input, Form, Flex, message } from 'antd'
 import { NavBtn } from './buttons'
 import { LoadingOutlined } from '@ant-design/icons'
 import { useLocation } from 'react-router-dom'
+import { validateField } from '../utils/validation'
 
 type UserDetailsProps = {
 	userEdited: User
@@ -23,7 +24,10 @@ export function UserDetails({ userEdited, loading }: UserDetailsProps) {
 	const path = useLocation().pathname
 	const dispatch = useAppDispatch()
 	const [hasChanges, setHasChanges] = React.useState<boolean>(false)
-	const [localUser, setLocalUser] = React.useState<User | null>(null)
+	const [localUser, setLocalUser] = React.useState<User | null>(userEdited)
+	const [fieldErrors, setFieldErrors] = React.useState<{
+		[key: string]: string[]
+	}>({})
 
 	React.useEffect(() => {
 		if (userEdited) {
@@ -35,6 +39,15 @@ export function UserDetails({ userEdited, loading }: UserDetailsProps) {
 	const handleFieldChange = React.useCallback(
 		(field: string, value: string) => {
 			if (!localUser) return
+
+			// Validate the specific field when it changes
+			const errors = validateField(field, value)
+
+			// Update the errors for this specific field
+			setFieldErrors((prevErrors) => ({
+				...prevErrors,
+				[field]: errors,
+			}))
 
 			const updatedUser: User = {
 				...localUser,
@@ -110,30 +123,65 @@ export function UserDetails({ userEdited, loading }: UserDetailsProps) {
 					value={localUser?.username ?? ''}
 					onChange={(e) => handleFieldChange('username', e.target.value)}
 				/>
+				{fieldErrors['username'] && (
+					<div style={{ color: 'red' }}>
+						{fieldErrors['username'].map((error, index) => (
+							<p key={index}>{error}</p>
+						))}
+					</div>
+				)}
 			</Form.Item>
 			<Form.Item label='Email' required>
 				<Input
 					value={localUser?.email ?? ''}
 					onChange={(e) => handleFieldChange('email', e.target.value)}
 				/>
+				{fieldErrors['email'] && (
+					<div style={{ color: 'red' }}>
+						{fieldErrors['email'].map((error, index) => (
+							<p key={index}>{error}</p>
+						))}
+					</div>
+				)}
 			</Form.Item>
 			<Form.Item label='Street' required>
 				<Input
 					value={localUser?.address?.street ?? ''}
 					onChange={(e) => handleFieldChange('street', e.target.value)}
 				/>
+				{fieldErrors['street'] && (
+					<div style={{ color: 'red' }}>
+						{fieldErrors['street'].map((error, index) => (
+							<p key={index}>{error}</p>
+						))}
+					</div>
+				)}
 			</Form.Item>
 			<Form.Item label='Suite' required>
 				<Input
 					value={localUser?.address?.suite ?? ''}
 					onChange={(e) => handleFieldChange('suite', e.target.value)}
 				/>
+				{fieldErrors['suite'] && (
+					<div style={{ color: 'red' }}>
+						{fieldErrors['suite'].map((error, index) => (
+							<p key={index}>{error}</p>
+						))}
+					</div>
+				)}
 			</Form.Item>
 			<Form.Item label='City' required>
 				<Input
 					value={localUser?.address?.city ?? ''}
 					onChange={(e) => handleFieldChange('city', e.target.value)}
 				/>
+				{fieldErrors['city'] && (
+					<div style={{ color: 'red' }}>
+						{fieldErrors['city'].map((error, index) => (
+							<p key={index}>{error}</p>
+						))}
+					</div>
+				)}
 			</Form.Item>
 			<div style={{ display: 'flex', gap: 10 }}>
 				<Button

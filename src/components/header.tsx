@@ -6,6 +6,7 @@ type HeaderProps = {
 	title: string
 }
 
+// Set it at the beginning of section
 export function Header({ title }: HeaderProps) {
 	return (
 		<Flex
