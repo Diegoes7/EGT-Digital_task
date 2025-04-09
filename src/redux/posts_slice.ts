@@ -11,7 +11,7 @@ const initialState: PostsState = {
   editedPosts: {},
 }
 
-
+// Queries to API, asynchronous
 export const fetchUserPosts = createAsyncThunk(
   'posts/fetchUserPosts',
   async (userId: number) => {
@@ -39,7 +39,7 @@ export const deletePost = createAsyncThunk(
   }
 )
 
-// Slice from State
+// State Slice
 const userDetailsSlice = createSlice({
   name: 'posts',
   initialState,

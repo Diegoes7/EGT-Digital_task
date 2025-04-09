@@ -17,7 +17,7 @@ export function UsersList({ users, loading, editedUsers }: UsersListProps) {
 				className='horizontal'
 				style={{ display: 'flex', alignItems: 'center', gap: '0.5em' }}
 			>
-				<h2 className='section-heading'>User List</h2>
+				<h2 className='section-heading'>Users List</h2>
 				<NavBtn to='/tasks' label='Go to tasks' />
 			</Flex>
 			{loading && (

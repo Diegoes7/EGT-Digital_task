@@ -29,7 +29,13 @@ export function UserDetails({ userEdited, loading }: UserDetailsProps) {
 		[key: string]: string[]
 	}>({})
 
+	// Function to check if there are any errors in the fieldErrors state
+	const hasErrors = Object.values(fieldErrors).some(
+		(errors) => errors.length > 0
+	)
+
 	React.useEffect(() => {
+		// console.log(userEdited)
 		if (userEdited) {
 			setLocalUser(userEdited)
 		}
@@ -131,6 +137,19 @@ export function UserDetails({ userEdited, loading }: UserDetailsProps) {
 					</div>
 				)}
 			</Form.Item>
+			<Form.Item label='Name' required>
+				<Input
+					value={localUser?.name ?? ''}
+					onChange={(e) => handleFieldChange('name', e.target.value)}
+				/>
+				{fieldErrors['name'] && (
+					<div style={{ color: 'red' }}>
+						{fieldErrors['name'].map((error, index) => (
+							<p key={index}>{error}</p>
+						))}
+					</div>
+				)}
+			</Form.Item>
 			<Form.Item label='Email' required>
 				<Input
 					value={localUser?.email ?? ''}
@@ -139,6 +158,19 @@ export function UserDetails({ userEdited, loading }: UserDetailsProps) {
 				{fieldErrors['email'] && (
 					<div style={{ color: 'red' }}>
 						{fieldErrors['email'].map((error, index) => (
+							<p key={index}>{error}</p>
+						))}
+					</div>
+				)}
+			</Form.Item>
+			<Form.Item label='Telephone' required>
+				<Input
+					value={localUser?.phone ?? ''}
+					onChange={(e) => handleFieldChange('phone', e.target.value)}
+				/>
+				{fieldErrors['phone'] && (
+					<div style={{ color: 'red' }}>
+						{fieldErrors['phone'].map((error, index) => (
 							<p key={index}>{error}</p>
 						))}
 					</div>
@@ -186,7 +218,7 @@ export function UserDetails({ userEdited, loading }: UserDetailsProps) {
 			<div style={{ display: 'flex', gap: 10 }}>
 				<Button
 					type='primary'
-					disabled={!hasChanges}
+					disabled={!hasChanges || hasErrors}
 					onClick={() => handleSubmitUser(userEdited?.id)}
 				>
 					Submit

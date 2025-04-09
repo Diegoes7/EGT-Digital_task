@@ -27,7 +27,7 @@ export const fetchUserById = createAsyncThunk(
   }
 )
 
-// Slice from State
+// State Slice 
 const usersSlice = createSlice({
   name: 'users',
   initialState,
@@ -58,8 +58,10 @@ const usersSlice = createSlice({
     },
   },
 
+  //Handle the async operations 
   extraReducers: (builder) => {
     builder
+      // Fetch all users
       .addCase(fetchUsers.pending, (state) => {
         state.loading = true
         state.error = null

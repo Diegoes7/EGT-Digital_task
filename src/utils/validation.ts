@@ -1,8 +1,10 @@
 
 // Function to validate the required fields, all in one place
-
 export const validateField = (field: string, value: string) => {
   let errors: string[] = []
+
+  // Regular expression for validating the phone number
+  const phoneRegex = /^(\+?[\d]{1,4})?[\s\-]?[0-9]{1,4}[\s\-]?[0-9]{1,4}[\s\-]?[0-9]{1,4}$/
 
   switch (field) {
     case 'username':
@@ -18,6 +20,16 @@ export const validateField = (field: string, value: string) => {
     case 'suite':
     case 'city':
       if (!value) errors.push(`${field.charAt(0).toUpperCase() + field.slice(1)} is required.`)
+      break
+    case 'name':
+      if (value.length < 5) errors.push('Username must be at least 5 characters.')
+      break
+    case 'phone':
+      if (!value) {
+        errors.push('Phone number is required.')
+      } else if (!phoneRegex.test(value)) {
+        errors.push('Phone number must start with +359 and be followed by 6 or more digits.')
+      }
       break
     // Add any other fields to validate...
     default:

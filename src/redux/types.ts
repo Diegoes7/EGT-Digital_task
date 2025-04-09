@@ -11,13 +11,14 @@ export type User = {
   username: string
   email: string
   address: Address
+  phone: string
 }
 
 export type UsersState = {
   users: User[]
   loading: boolean
   error: string | null
-  editedUsers: Record<number, User> // Track local edits
+  editedUsers: Record<number, User> 
   selectedUser: User | null
 }
 

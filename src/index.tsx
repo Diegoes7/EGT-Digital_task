@@ -2,11 +2,11 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App'
-import './index.css'
 import reportWebVitals from './reportWebVitals'
-import 'antd/dist/reset.css'
-import '@ant-design/v5-patch-for-react-19'
 import { unstableSetRender } from 'antd'
+import '@ant-design/v5-patch-for-react-19'
+import 'antd/dist/reset.css'
+import './index.css'
 
 // Extend HTMLElement type to allow _reactRoot
 declare global {

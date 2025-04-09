@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchTasks, fetchUsers, Filters, setFilters, toggleTaskStatus } from '../redux'
 import { TasksTable } from '../components/tasks_table'
-import { RootState, AppDispatch } from '../redux/store' // Add AppDispatch import
+import { RootState, AppDispatch } from '../redux/store' 
 
 export default function TasksPage() {
 	const dispatch = useDispatch<AppDispatch>()
@@ -22,10 +22,6 @@ export default function TasksPage() {
         dispatch(fetchUsers());
       }
     }, [dispatch, loading, users])
-
-	// useEffect(() => {
-	// 	dispatch(setFilters(filters))
-	// }, [dispatch, filters])
 
 	const handleStatusChange = React.useCallback(
 		(taskId: number) => {

@@ -24,6 +24,8 @@ export function PostsList({
 	onPostDelete,
 	onRevertPost,
 }: PostListProps) {
+
+	// memoized functions
 	const createPostChangeHandler = React.useCallback(
 		(postId: number, field: 'title' | 'body') =>
 			(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
