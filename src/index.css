@@ -1,13 +1,48 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+		'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+		sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	background-color: rgb(0 0 0 / 18%);
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+		monospace;
+}
+
+/* styles.css */
+.section-heading {
+	margin: 16px 0;
+	padding: 0px 0.3em;
+	background-color: #fff;
+	border-radius: 8px;
+	font-size: 1.25rem; /* equivalent to text-xl */
+	font-weight: 600; /* equivalent to font-semibold */
+	display: block;
+}
+
+.box-shadow {
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	padding: 1em;
+	border-radius: 1em;
+}
+
+/* Custom styles for Ant Design messages */
+.custom-message {
+	font-size: 18px; /* Adjust the font size as needed */
+	padding: 12px 24px; /* Adjust the padding as needed */
+	border-radius: 4px; /* Optional: adds rounded corners */
+}
+
+.custom-message.ant-message-success {
+	background-color: #52c41a; /* Success background color */
+	color: #fff; /* Text color */
+}
+
+.custom-message.ant-message-error {
+	background-color: #f5222d; /* Error background color */
+	color: #fff; /* Text color */
 }

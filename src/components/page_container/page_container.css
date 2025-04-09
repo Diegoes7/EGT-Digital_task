@@ -1,0 +1,35 @@
+/* components/layout/PageContainer.css */
+.page-container {
+	max-width: 1440px;
+	margin: 0 auto;
+	padding: 1rem;
+	min-height: 100vh;
+	box-sizing: border-box;
+}
+
+.content-wrapper {
+	padding: 1rem;
+	background: #ffffff;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	min-height: calc(100vh - 4rem);
+}
+
+@media (max-width: 768px) {
+	.page-container {
+		padding: 1.5rem;
+	}
+}
+
+@media (max-width: 480px) {
+	.page-container {
+		padding: 1rem;
+	}
+}
+
+@media (max-width: 410px) {
+	.page-container {
+		padding: 0;
+		margin: 0;
+	}
+}

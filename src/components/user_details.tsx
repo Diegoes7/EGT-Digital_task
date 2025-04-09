@@ -1,0 +1,162 @@
+import React from 'react'
+import {
+	editUser,
+	submitUser,
+	revertUser,
+	useAppDispatch,
+	User,
+} from '../redux'
+import { Button, Input, Form, Flex, message } from 'antd'
+import { NavBtn } from './buttons'
+import { LoadingOutlined } from '@ant-design/icons'
+import { useLocation } from 'react-router-dom'
+
+type UserDetailsProps = {
+	userEdited: User
+	loading?: boolean
+}
+
+type TopLevelUserField = keyof Omit<User, 'address'>
+type AddressField = keyof User['address']
+
+export function UserDetails({ userEdited, loading }: UserDetailsProps) {
+	const path = useLocation().pathname
+	const dispatch = useAppDispatch()
+	const [hasChanges, setHasChanges] = React.useState<boolean>(false)
+	const [localUser, setLocalUser] = React.useState<User | null>(null)
+
+	React.useEffect(() => {
+		if (userEdited) {
+			setLocalUser(userEdited)
+		}
+	}, [userEdited])
+
+	// Create a generic handler function
+	const handleFieldChange = React.useCallback(
+		(field: string, value: string) => {
+			if (!localUser) return
+
+			const updatedUser: User = {
+				...localUser,
+				address: {
+					...localUser.address,
+				},
+			}
+
+			if (['street', 'suite', 'city', 'zipcode', 'geo'].includes(field)) {
+				;(updatedUser.address as any)[field as AddressField] = value
+			} else {
+				;(updatedUser as any)[field as TopLevelUserField] = value
+			}
+
+			setLocalUser(updatedUser)
+
+			const changes: Partial<User> = {
+				address: updatedUser.address,
+				...(field in updatedUser ? { [field]: value } : {}),
+			}
+
+			dispatch(editUser({ id: localUser.id, changes }))
+
+			if (!hasChanges) setHasChanges(true)
+		},
+		[dispatch, hasChanges, localUser]
+	)
+
+	const handleRevertUser = React.useCallback(
+		(user: User) => {
+			dispatch(revertUser(user.id))
+			if (hasChanges === true) {
+				setHasChanges(false)
+			}
+		},
+		[dispatch, hasChanges]
+	)
+
+	const handleSubmitUser = React.useCallback(
+		async (userId: number) => {
+			try {
+				// Dispatch the submit action
+				await dispatch(submitUser(userId))
+				setHasChanges(false)
+
+				// If the submission is successful, show a success message
+				message.success({
+					content: 'User saved successfully!',
+					duration: 3, // duration
+					className: 'custom-message', // Apply the custom message class
+				})
+			} catch (error) {
+				// If an error occurs, show an error message
+				message.error({
+					content: 'Failed to save user. Please try again.',
+					duration: 3, // duration
+					className: 'custom-message', // Apply the custom message class
+				})
+			}
+		},
+		[dispatch]
+	)
+	return (
+		<Form layout='vertical'>
+			{loading && (
+				<p>
+					{' '}
+					<LoadingOutlined style={{ fontSize: '1.5em' }} />
+				</p>
+			)}
+			<Form.Item label='Username' required>
+				<Input
+					value={localUser?.username ?? ''}
+					onChange={(e) => handleFieldChange('username', e.target.value)}
+				/>
+			</Form.Item>
+			<Form.Item label='Email' required>
+				<Input
+					value={localUser?.email ?? ''}
+					onChange={(e) => handleFieldChange('email', e.target.value)}
+				/>
+			</Form.Item>
+			<Form.Item label='Street' required>
+				<Input
+					value={localUser?.address?.street ?? ''}
+					onChange={(e) => handleFieldChange('street', e.target.value)}
+				/>
+			</Form.Item>
+			<Form.Item label='Suite' required>
+				<Input
+					value={localUser?.address?.suite ?? ''}
+					onChange={(e) => handleFieldChange('suite', e.target.value)}
+				/>
+			</Form.Item>
+			<Form.Item label='City' required>
+				<Input
+					value={localUser?.address?.city ?? ''}
+					onChange={(e) => handleFieldChange('city', e.target.value)}
+				/>
+			</Form.Item>
+			<div style={{ display: 'flex', gap: 10 }}>
+				<Button
+					type='primary'
+					disabled={!hasChanges}
+					onClick={() => handleSubmitUser(userEdited?.id)}
+				>
+					Submit
+				</Button>
+				<Button
+					disabled={!hasChanges}
+					onClick={() => handleRevertUser(userEdited)}
+				>
+					Cancel
+				</Button>
+				{path === '/' && (
+					<NavBtn
+						to={`/${userEdited?.id}/posts`}
+						key='see_posts'
+						label='See posts'
+					/>
+				)}
+			</div>
+		</Form>
+	)
+}

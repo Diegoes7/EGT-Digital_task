@@ -1,26 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Provider } from 'react-redux'
+import { store } from './redux/store'
+import { Route, Routes } from 'react-router-dom'
+import TasksPage from './pages/tasks_page'
+import UsersPage from './pages/users_page'
+import UserDetailsPage from './pages/user_details_page'
+import PageContainer from './components/page_container/page_container'
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<Provider store={store}>
+			<PageContainer>
+				<Routes>
+					<Route path='/tasks' element={<TasksPage />} />
+					<Route path='/' element={<UsersPage />} />
+					<Route path='/:userId/posts' element={<UserDetailsPage />} />
+				</Routes>
+			</PageContainer>
+		</Provider>
+	)
 }
 
-export default App;
+export default App
