@@ -85,6 +85,8 @@ export function UserDetails({ userEdited, loading }: UserDetailsProps) {
 	const handleRevertUser = React.useCallback(
 		(user: User) => {
 			dispatch(revertUser(user.id))
+			setLocalUser(user) // Reset local state
+			setFieldErrors({}) // Clear validation errors
 			if (hasChanges === true) {
 				setHasChanges(false)
 			}

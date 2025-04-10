@@ -89,6 +89,13 @@ export default function UserDetailsPage() {
 		[dispatch]
 	)
 
+	const handleRevertPost = React.useCallback(
+		(id: number) => {
+			dispatch(revertPost(id))
+		},
+		[dispatch]
+	)
+
 	return (
 		<div>
 			<Header title='User Details' />
@@ -103,7 +110,7 @@ export default function UserDetailsPage() {
 				onPostChange={handlePostChange}
 				onPostSubmit={handlePostSubmit}
 				onPostDelete={handleDelete}
-				onRevertPost={(id) => dispatch(revertPost(id))}
+				onRevertPost={(id) => handleRevertPost(id)}
 			/>
 		</div>
 	)
