@@ -29,7 +29,7 @@ export function UserDetails({ userEdited, loading }: UserDetailsProps) {
 	const [fieldErrors, setFieldErrors] = React.useState<{
 		[key: string]: string[]
 	}>({})
-	const [initialUser, setInitialUser ] = React.useState(userEdited)
+	const [initialUser, setInitialUser] = React.useState(userEdited)
 
 	// Function to check if there are any errors in the fieldErrors state
 	const hasErrors = Object.values(fieldErrors).some(
@@ -42,8 +42,13 @@ export function UserDetails({ userEdited, loading }: UserDetailsProps) {
 		} else {
 			setHasChanges(true)
 		}
-
-	}, [initialUser, localUser])
+		if (
+			path === `/${userEdited?.id}/posts` &&
+			isEqual(localUser, initialUser)
+		) {
+			setInitialUser(userEdited)
+		}
+	}, [initialUser, localUser, path, userEdited])
 
 	React.useEffect(() => {
 		// console.log(userEdited)
