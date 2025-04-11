@@ -1,4 +1,5 @@
 import React from 'react'
+import isEqual from 'lodash.isequal'
 import {
 	editUser,
 	submitUser,
@@ -6,7 +7,7 @@ import {
 	useAppDispatch,
 	User,
 } from '../redux'
-import { Button, Input, Form, Flex, message } from 'antd'
+import { Button, Input, Form, message } from 'antd'
 import { NavBtn } from './buttons'
 import { LoadingOutlined } from '@ant-design/icons'
 import { useLocation } from 'react-router-dom'
@@ -28,11 +29,21 @@ export function UserDetails({ userEdited, loading }: UserDetailsProps) {
 	const [fieldErrors, setFieldErrors] = React.useState<{
 		[key: string]: string[]
 	}>({})
+	const [initialUser, setInitialUser ] = React.useState(userEdited)
 
 	// Function to check if there are any errors in the fieldErrors state
 	const hasErrors = Object.values(fieldErrors).some(
 		(errors) => errors.length > 0
 	)
+
+	React.useEffect(() => {
+		if (isEqual(localUser, initialUser)) {
+			setHasChanges(false)
+		} else {
+			setHasChanges(true)
+		}
+
+	}, [initialUser, localUser])
 
 	React.useEffect(() => {
 		// console.log(userEdited)

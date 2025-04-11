@@ -16,6 +16,7 @@ export type User = {
 
 export type UsersState = {
   users: User[]
+  byId: Record<number, User>
   loading: boolean
   error: string | null
   editedUsers: Record<number, User> 
