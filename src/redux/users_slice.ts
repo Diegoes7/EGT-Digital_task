@@ -55,11 +55,10 @@ export const fetchUsers = (): AppThunk => async (dispatch, getState) => {
 //   }
 // )
 
-// src/store/usersSlice.ts
 export const fetchUserById = (userId: number): AppThunk => async (dispatch, getState) => {
   const key = `user-${userId}`
   const existing = getRequest(key)
-  if (existing !== undefined) return // ✅ Skip if in-flight
+  if (existing !== undefined) return // Skip if in-flight
 
   const state = getState()
   const alreadyLoaded = state.users.byId[userId]
